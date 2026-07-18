@@ -1,7 +1,7 @@
-"""Base entry point utilities for PyKotor GUI tools.
+"""Base entry point utilities for Tk GUI tools.
 
 This module provides reusable functions and patterns for creating
-consistent entry points across all PyKotor GUI applications.
+consistent entry points across all Tk GUI applications.
 
 Usage in __main__.py:
     from tk_app_framework.app_entry import (
@@ -69,7 +69,7 @@ def is_frozen() -> bool:
 def setup_sys_path(
     module_file: str,
     *,
-    include_pykotor: bool = False,
+    include_vendor_libs: bool = False,
     include_utility: bool = True,
     include_module_parent: bool = True,
 ):
@@ -81,7 +81,7 @@ def setup_sys_path(
 
     Args:
         module_file: The __file__ of the calling module
-        include_pykotor: Whether to add PyKotor library path
+        include_vendor_libs: Whether to add VendorLib library path
         include_utility: Whether to add Utility library path
         include_module_parent: Whether to add the module's parent (src) directory
     """
@@ -105,14 +105,14 @@ def setup_sys_path(
             potential_root = module_path.parents[i]
             libraries_path = potential_root / "Libraries"
             if libraries_path.exists():
-                if include_pykotor:
-                    pykotor_path = libraries_path / "PyKotor" / "src" / "pykotor"
-                    if pykotor_path.exists():
-                        update_sys_path(pykotor_path.parent)
+                if include_vendor_libs:
+                    vendor_lib_path = libraries_path / "VendorLib" / "src" / "VendorLib"
+                    if vendor_lib_path.exists():
+                        update_sys_path(vendor_lib_path.parent)
 
                 if include_utility:
-                    # utility is inside PyKotor/src
-                    utility_path = libraries_path / "PyKotor" / "src" / "utility"
+                    # utility is inside VendorLib/src
+                    utility_path = libraries_path / "VendorLib" / "src" / "utility"
                     if utility_path.exists():
                         update_sys_path(utility_path.parent)
                 break
@@ -227,7 +227,7 @@ def main_wrapper(
 ):
     """Main wrapper that handles CLI vs GUI mode selection.
 
-    This provides a standard pattern for PyKotor tool entry points:
+    Standard tool entry pattern:
     1. Parse command line arguments
     2. If CLI condition is met, run in CLI mode
     3. Otherwise, try to launch GUI

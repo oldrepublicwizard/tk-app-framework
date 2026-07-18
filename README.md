@@ -1,21 +1,14 @@
 # tk-app-framework
 
-Tkinter application framework pieces formerly shared by HoloPatcher/KotorDiff. PatchLogger dependency replaced with a stdlib logging shim.
+Shared Tkinter bits for small desktop tools: app shell, entry helpers, updater hooks.
+
+Logging goes through a thin stdlib shim so you're not forced into a particular logger package.
 
 ## Install
 
 ```bash
-pip install -e .
-# or from GitHub:
-pip install git+https://github.com/oldrepublicwizard/tk-app-framework
+pip install git+https://github.com/oldrepublicwizard/tk-app-framework.git
 ```
-
-## Origin
-
-Extracted from the [PyKotor](https://github.com/OpenKotOR/PyKotor) monorepo `utility` / related packages.
-KotOR-specific couplings were removed or made optional for standalone use.
-
-
 
 ## License
 

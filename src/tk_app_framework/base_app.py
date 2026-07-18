@@ -1,7 +1,7 @@
-"""Base Tkinter Application Framework for PyKotor tools.
+"""Base Tkinter application framework.
 
 This module provides reusable base classes for creating GUI applications
-with a consistent look, feel, and behavior across all PyKotor tools.
+with a consistent look, feel, and behavior across tools that share this base.
 
 Usage:
     from tk_app_framework.base_app import BaseApp
@@ -50,7 +50,7 @@ if TYPE_CHECKING:
 
 
 class BaseApp(ABC):
-    """Base class for PyKotor GUI applications.
+    """Base class for Tk GUI applications.
 
     This class provides common functionality including:
     - Window setup and centering
@@ -107,7 +107,7 @@ class BaseApp(ABC):
         self.simple_thread_event: Event = Event()
 
         # Logging
-        self.pykotor_logger = RobustLogger()
+        self.app_logger = RobustLogger()
         self.log_level: Any = None  # Tool-specific log level type
 
         # One-shot mode (for CLI execution)
@@ -122,7 +122,7 @@ class BaseApp(ABC):
         self.initialize_logger()
         self.initialize_ui_controls()
 
-        self.pykotor_logger.debug("Base init complete")
+        self.app_logger.debug("Base init complete")
 
     # =========================================================================
     # Abstract Methods (must be implemented by subclasses)
@@ -210,7 +210,7 @@ class BaseApp(ABC):
             self.main_text.see(tk.END)
             self.main_text.config(state=tk.DISABLED)
         except Exception as e:  # noqa: BLE001
-            self.pykotor_logger.error(f"Failed to write log to UI: {e}")
+            self.app_logger.error(f"Failed to write log to UI: {e}")
 
     def get_log_file_path(self) -> Path | None:
         """Return the path to the log file. Override in subclasses."""
@@ -436,7 +436,7 @@ class BaseApp(ABC):
             title: Dialog title (defaults to error type name)
             msgbox: Whether to show a messagebox (default True)
         """
-        self.pykotor_logger.exception(custom_msg, exc_info=exc)
+        self.app_logger.exception(custom_msg, exc_info=exc)
         error_name, msg = (exc.__class__.__name__, str(exc))
         if msgbox:
             messagebox.showerror(
@@ -532,10 +532,10 @@ class BaseApp(ABC):
 
 
 class ThemedApp(BaseApp):
-    """Base class with KotorDiff-style themed UI (dark/orange theme).
+    """Base class with dark/orange themed UI (dark/orange theme).
 
     This class extends BaseApp with a darker color scheme similar to
-    the KotorDiff screenshot - useful for tools that want a distinct look.
+    a dark/orange look.
     """
 
     # Theme colors
